@@ -135,12 +135,7 @@
 {
     if(self.<$Relationship.name$> == nil)
 	{
-	    <$if Relationship.isTransient$>
-	    CFArrayCallBacks callbacks = {0, NULL, NULL, CFCopyDescription, CFEqual};
-	    self.<$Relationship.name$> = [(NSMutableArray*) CFArrayCreateMutable(0, 0, &callbacks) autorelease];
-	    <$else$>
 		self.<$Relationship.name$> = [NSMutableArray array];
-		<$endif$>
 	}
 		
 	[(NSMutableArray *)self.<$Relationship.name$> addObject:value_];
@@ -155,12 +150,7 @@
 
 - (void)remove<$Relationship.name.initialCapitalString$>Objects
 {
-	<$if Relationship.isTransient$>
-    CFArrayCallBacks callbacks = {0, NULL, NULL, CFCopyDescription, CFEqual};
-    self.<$Relationship.name$> = [(NSMutableArray*) CFArrayCreateMutable(0, 0, &callbacks) autorelease];
-    <$else$>
 	self.<$Relationship.name$> = [NSMutableArray array];
-	<$endif$>
 }
 
 - (void)remove<$Relationship.name.initialCapitalString$>Object:(<$Relationship.destinationEntity.managedObjectClassName$>*)value_ settingInverse: (BOOL) setInverse
@@ -187,8 +177,7 @@
         [<$Relationship.name$> set<$Relationship.inverseRelationship.name.initialCapitalString$>: nil settingInverse: NO];
     }
     <$endif$><$endif$><$if Relationship.isTransient$><$Relationship.name$> = <$Relationship.name$>_;<$else$>if (<$Relationship.name$> != <$Relationship.name$>_) {
-        [<$Relationship.name$> release];
-        <$Relationship.name$> = [<$Relationship.name$>_ retain];
+        <$Relationship.name$> = <$Relationship.name$>_;
     }<$endif$>
     <$if Relationship.inverseRelationship$><$if Relationship.inverseRelationship.isToMany$>if (setInverse == YES) {
         [<$Relationship.name$> add<$Relationship.inverseRelationship.name.initialCapitalString$>Object: (<$managedObjectClassName$>*)self settingInverse: NO];
@@ -215,7 +204,6 @@
 	<$endif$><$endforeach do$>
 	<$foreach Relationship noninheritedRelationships do$><$if ! Relationship.isTransient$>self.<$Relationship.name$> = nil;
 	<$endif$><$endforeach do$>
-	[super dealloc];
 }
 
 #pragma mark Synthesizes
