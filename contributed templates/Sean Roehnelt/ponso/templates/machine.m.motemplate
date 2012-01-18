@@ -49,7 +49,7 @@
 
 // MARK: Dictionary representation
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)dictionary
+- (id)initWithDictionaryRepresentation:(NSMutableDictionary *)dictionary
 {
 	if((self = [super initWithDictionaryRepresentation:dictionary]))
 	{
@@ -60,7 +60,7 @@
 		{
 			<$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:objectRepresentationForDict];
 			[self add<$Relationship.name.initialCapitalString$>Object:<$Relationship.name$>Obj];
-		}<$else$>NSDictionary *<$Relationship.name$>Dict = [dictionary objectForKey:@"<$managedObjectClassName$>.<$Relationship.name$>"];
+		}<$else$>NSMutableDictionary *<$Relationship.name$>Dict = [dictionary objectForKey:@"<$managedObjectClassName$>.<$Relationship.name$>"];
 		if(<$Relationship.name$>Dict != nil)
 		{
 			<$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:<$Relationship.name$>Dict];
@@ -71,7 +71,7 @@
 	return self;
 }
 
-- (NSDictionary *)dictionaryRepresentation
+- (NSMutableDictionary *)dictionaryRepresentation
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[super dictionaryRepresentation]];
 	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>[dict setObjectIfNotNil:self.<$Attribute.name$> forKey:@"<$managedObjectClassName$>.<$Attribute.name$>"];
