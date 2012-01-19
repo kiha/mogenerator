@@ -64,6 +64,7 @@
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* mogenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mogenerator.m; sourceTree = "<group>"; usesTabs = 1; };
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		149C3B1C14C8D04F00AE0BE5 /* contributed templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "contributed templates"; sourceTree = "<group>"; };
 		32A70AAB03705E1F00C91783 /* mogenerator_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mogenerator_Prefix.pch; sourceTree = "<group>"; };
 		457C26C7139A1EF900BF00DD /* MKCDAGNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKCDAGNode.h; sourceTree = "<group>"; };
 		457C26C8139A1EF900BF00DD /* MKCDAGNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKCDAGNode.m; sourceTree = "<group>"; };
@@ -187,6 +188,7 @@
 		08FB7794FE84155DC02AAC07 /* mogenerator */ = {
 			isa = PBXGroup;
 			children = (
+				149C3B1C14C8D04F00AE0BE5 /* contributed templates */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				79D2BF510ACFB51000F3F141 /* MiscMerge */,
 				457C26C6139A1EF900BF00DD /* ponso */,

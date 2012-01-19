@@ -188,6 +188,7 @@
 		457C267F1399FAC600BF00DD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "@nzhuk";
 			};
 			buildConfigurationList = 457C26821399FAC600BF00DD /* Build configuration list for PBXProject "PonsoTest" */;
