@@ -24,12 +24,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ModelObject : NSObject <NSCopying, NSCoding>
+@interface ModelObject : NSObject <NSCopying>
 {
-	NSDictionary *sourceDictionaryRepresentation;
+	NSMutableDictionary *sourceDictionaryRepresentation;
 }
 
-@property(nonatomic, retain) NSDictionary *sourceDictionaryRepresentation;
+@property(nonatomic, retain) NSMutableDictionary *sourceDictionaryRepresentation;
 
 /**
  Reads and deserializes a ModelObject from plist at given \c filePath
@@ -43,8 +43,8 @@
 */
 - (BOOL)writeToFile:(NSString *)filePath;
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)dictionary;
-- (NSDictionary *)dictionaryRepresentation;
+- (id)initWithDictionaryRepresentation:(NSMutableDictionary *)dictionary;
+- (NSMutableDictionary *)dictionaryRepresentation;
 
 - (void)awakeFromDictionaryRepresentationInit;
 

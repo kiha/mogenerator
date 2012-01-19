@@ -22,22 +22,6 @@
 
 @implementation ModelObject
 
-- (id) initWithCoder: (NSCoder*) aDecoder
-{
-    self = [super init];
-    if (self) {
-        // Superclass implementation:
-        // If we add ivars/properties, here's where we'll load them
-    }
-    return self;
-}
-
-- (void) encodeWithCoder: (NSCoder*) aCoder
-{
-    // Superclass implementation:
-    // If we add ivars/properties, here's where we'll save them
-}
-
 + (id)createModelObjectFromFile:(NSString *)filePath
 {
 	if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])
@@ -60,19 +44,18 @@
 	}
 	
 	NSString *errorString = nil;
-	NSDictionary *plist = [NSPropertyListSerialization propertyListFromData:plistData
-														   mutabilityOption:0
-																	 format:NULL
-														   errorDescription:&errorString];
+	NSMutableDictionary *plist = [NSPropertyListSerialization propertyListFromData:plistData
+																																mutabilityOption:NSPropertyListMutableContainersAndLeaves
+																																					format:NULL
+																																errorDescription:&errorString];
 	if(!plist)
 	{
 		NSLog(@"Couldn't load '%@' data from '%@': %@.", NSStringFromClass([self class]), filePath, errorString);
-		[errorString release];
 		
 		return nil;
 	}
 	
-	id modelObject = [[[self alloc] initWithDictionaryRepresentation:plist] autorelease];
+	id modelObject = [[self alloc] initWithDictionaryRepresentation:plist];
 	[modelObject awakeFromDictionaryRepresentationInit];
 	
 	return modelObject;
@@ -87,14 +70,13 @@
     }
 	
 	// Save this modelObject into plist
-	NSDictionary *dict = [self dictionaryRepresentation];
+	NSMutableDictionary *dict = [self dictionaryRepresentation];
 	NSString *errorDesc = nil;
 	NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:dict format:NSPropertyListBinaryFormat_v1_0 errorDescription:&errorDesc];
 	if(!plistData)
 	{
 		NSLog(@"Error while serializing model object of class '%@' into plist. Error: '%@'.", NSStringFromClass([self class]), errorDesc);
 		
-		[errorDesc release]; // From docs: "If you receive a string, you must release it."
 		return NO;
 	}
 	
@@ -119,7 +101,7 @@
 	return YES;
 }
 
-- (id)initWithDictionaryRepresentation:(NSDictionary *)dictionary
+- (id)initWithDictionaryRepresentation:(NSMutableDictionary *)dictionary
 {
 	if((self = [super init]))
 	{
@@ -129,9 +111,9 @@
 	return self;
 }
 
-- (NSDictionary *)dictionaryRepresentation
+- (NSMutableDictionary *)dictionaryRepresentation
 {
-	return [NSDictionary dictionary];
+	return [NSMutableDictionary dictionary];
 }
 
 - (void)awakeFromDictionaryRepresentationInit
@@ -142,8 +124,6 @@
 - (void) dealloc
 {
 	self.sourceDictionaryRepresentation = nil;
-	
-	[super dealloc];
 }
 
 #pragma mark NSCopying
