@@ -44,10 +44,7 @@
 	}
 	
 	NSString *errorString = nil;
-	NSMutableDictionary *plist = [NSPropertyListSerialization propertyListFromData:plistData
-																																mutabilityOption:NSPropertyListMutableContainersAndLeaves
-																																					format:NULL
-																																errorDescription:&errorString];
+	NSMutableDictionary *plist = [NSPropertyListSerialization propertyListFromData:plistData mutabilityOption:NSPropertyListMutableContainersAndLeaves format:NULL errorDescription:&errorString];
 	if(!plist)
 	{
 		NSLog(@"Couldn't load '%@' data from '%@': %@.", NSStringFromClass([self class]), filePath, errorString);
