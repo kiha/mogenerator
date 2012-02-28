@@ -24,7 +24,10 @@
 
 @interface _<$managedObjectClassName$> : <$customSuperentity$>
 {
-	<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>NSArray *<$Relationship.name$>;<$else$><$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;<$endif$>
+	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$Attribute.objectAttributeType$> <$Attribute.name$>;<$endif$>
+	<$endforeach do$>
+	<$foreach Relationship noninheritedRelationships do$>
+	<$if Relationship.isToMany$>NSArray *<$Relationship.name$>;<$else$><$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;<$endif$>
 	<$endforeach do$>
 }
 
