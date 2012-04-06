@@ -66,7 +66,6 @@
     //   <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:<$Relationship.name$>Dict];
     //   self.<$Relationship.name$> = <$Relationship.name$>Obj;
     // }<$endif$><$endif$><$endif$><$endforeach do$>
-		[self updateWithDictionaryRepresentation:dictionary];
 	}
 	
 	return self;
@@ -74,8 +73,8 @@
 
 - (void)updateWithDictionaryRepresentation:(NSMutableDictionary *)dictionary
 {
-	[self updateWithDictionaryRepresentation:dictionary];
-	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>self.<$Attribute.name$> = [dictionary objectForKey:@"<$Attribute.name$>"];
+	[super updateWithDictionaryRepresentation:dictionary];
+	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>{ id <$Attribute.name$>_; if ((<$Attribute.name$>_ = [dictionary objectForKey:@"<$Attribute.name$>"])) self.<$Attribute.name$> = <$Attribute.name$>_; }
 	<$endif$><$endforeach do$>
 	<$foreach Relationship noninheritedRelationships do$><$if ! Relationship.userInfo.destinationEntityIDKeyPath $><$if ! Relationship.isTransient$><$if Relationship.isToMany$>
 	for(id objectRepresentationForDict in [dictionary objectForKey:@"<$Relationship.name$>"])
