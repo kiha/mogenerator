@@ -76,12 +76,17 @@
 	[super updateWithDictionaryRepresentation:dictionary];
 	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>{ id <$Attribute.name$>_; if ((<$Attribute.name$>_ = [dictionary objectForKey:@"<$Attribute.name$>"])) self.<$Attribute.name$> = <$Attribute.name$>_; }
 	<$endif$><$endforeach do$>
-	<$foreach Relationship noninheritedRelationships do$><$if ! Relationship.userInfo.destinationEntityIDKeyPath $><$if ! Relationship.isTransient$><$if Relationship.isToMany$>
-	for(id objectRepresentationForDict in [dictionary objectForKey:@"<$Relationship.name$>"])
-	{
-		<$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:objectRepresentationForDict];
-		[self add<$Relationship.name.initialCapitalString$>Object:<$Relationship.name$>Obj];
-	}<$else$>NSMutableDictionary *<$Relationship.name$>Dict = [dictionary objectForKey:@"<$Relationship.name$>"];
+	<$foreach Relationship noninheritedRelationships do$><$if ! Relationship.userInfo.destinationEntityIDKeyPath $><$if ! Relationship.isTransient$>
+  NSMutableDictionary *<$Relationship.name$>Dict = [dictionary objectForKey:@"<$Relationship.name$>"];<$if Relationship.isToMany$>
+  if (<$Relationship.name$>Dict != nil)
+  {
+    [self remove<$Relationship.name.initialCapitalString$>Objects];
+    for(id objectRepresentationForDict in <$Relationship.name$>Dict)
+    {
+      <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:objectRepresentationForDict];
+      [self add<$Relationship.name.initialCapitalString$>Object:<$Relationship.name$>Obj];
+    }
+  }<$else$>
 	if(<$Relationship.name$>Dict != nil)
 	{
 		<$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:<$Relationship.name$>Dict];
