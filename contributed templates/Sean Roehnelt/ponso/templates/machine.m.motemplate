@@ -49,27 +49,14 @@
 
 // MARK: Dictionary representation
 
-- (id)initWithDictionaryRepresentation:(NSMutableDictionary *)dictionary
-{
-	if((self = [super initWithDictionaryRepresentation:dictionary]))
-	{
-    // <$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>self.<$Attribute.name$> = [dictionary objectForKey:@"<$Attribute.name$>"];
-    // <$endif$><$endforeach do$>
-    // <$foreach Relationship noninheritedRelationships do$><$if ! Relationship.userInfo.destinationEntityIDKeyPath $><$if ! Relationship.isTransient$><$if Relationship.isToMany$>
-    // for(id objectRepresentationForDict in [dictionary objectForKey:@"<$Relationship.name$>"])
-    // {
-    //   <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:objectRepresentationForDict];
-    //   [self add<$Relationship.name.initialCapitalString$>Object:<$Relationship.name$>Obj];
-    // }<$else$>NSMutableDictionary *<$Relationship.name$>Dict = [dictionary objectForKey:@"<$Relationship.name$>"];
-    // if(<$Relationship.name$>Dict != nil)
-    // {
-    //   <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:<$Relationship.name$>Dict];
-    //   self.<$Relationship.name$> = <$Relationship.name$>Obj;
-    // }<$endif$><$endif$><$endif$><$endforeach do$>
-	}
-	
-	return self;
-}
+//- (id)initWithDictionaryRepresentation:(NSMutableDictionary *)dictionary
+//{
+//	if((self = [super initWithDictionaryRepresentation:dictionary]))
+//	{
+//	}
+//	
+//	return self;
+//}
 
 - (void)updateWithDictionaryRepresentation:(NSMutableDictionary *)dictionary
 {
