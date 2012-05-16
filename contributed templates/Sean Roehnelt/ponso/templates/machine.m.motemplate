@@ -60,52 +60,56 @@
 
 - (void)updateWithDictionaryRepresentation:(NSMutableDictionary *)dictionary
 {
-	[super updateWithDictionaryRepresentation:dictionary];
-	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>{ id <$Attribute.name$>_; if ((<$Attribute.name$>_ = [dictionary objectForKey:@"<$Attribute.name$>"])) self.<$Attribute.name$> = <$Attribute.name$>_; }
-	<$endif$><$endforeach do$>
-	<$foreach Relationship noninheritedRelationships do$><$if ! Relationship.userInfo.destinationEntityIDKeyPath $><$if ! Relationship.isTransient$>
-  NSMutableDictionary *<$Relationship.name$>Dict = [dictionary objectForKey:@"<$Relationship.name$>"];<$if Relationship.isToMany$>
-  if (<$Relationship.name$>Dict != nil)
-  {
-    [self remove<$Relationship.name.initialCapitalString$>Objects];
-    for(id objectRepresentationForDict in <$Relationship.name$>Dict)
+  @synchronized(self) {
+    [super updateWithDictionaryRepresentation:dictionary];
+    <$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>{ id <$Attribute.name$>_; if ((<$Attribute.name$>_ = [dictionary objectForKey:@"<$Attribute.name$>"])) self.<$Attribute.name$> = <$Attribute.name$>_; }
+    <$endif$><$endforeach do$>
+    <$foreach Relationship noninheritedRelationships do$><$if ! Relationship.userInfo.destinationEntityIDKeyPath $><$if ! Relationship.isTransient$>
+    NSMutableDictionary *<$Relationship.name$>Dict = [dictionary objectForKey:@"<$Relationship.name$>"];<$if Relationship.isToMany$>
+    if (<$Relationship.name$>Dict != nil)
     {
-      <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:objectRepresentationForDict];
-      [self add<$Relationship.name.initialCapitalString$>Object:<$Relationship.name$>Obj];
-    }
-  }<$else$>
-	if(<$Relationship.name$>Dict != nil)
-	{
-		<$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:<$Relationship.name$>Dict];
-		self.<$Relationship.name$> = <$Relationship.name$>Obj;
-	}<$endif$><$endif$><$endif$><$endforeach do$>
+      [self remove<$Relationship.name.initialCapitalString$>Objects];
+      for(id objectRepresentationForDict in <$Relationship.name$>Dict)
+      {
+        <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:objectRepresentationForDict];
+        [self add<$Relationship.name.initialCapitalString$>Object:<$Relationship.name$>Obj];
+      }
+    }<$else$>
+    if(<$Relationship.name$>Dict != nil)
+    {
+      <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:<$Relationship.name$>Dict];
+      self.<$Relationship.name$> = <$Relationship.name$>Obj;
+    }<$endif$><$endif$><$endif$><$endforeach do$>
+  }
 }
 
 - (NSMutableDictionary *)dictionaryRepresentation
 {
-	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[super dictionaryRepresentation]];
-	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>[dict setObjectIfNotNil:self.<$Attribute.name$> forKey:@"<$Attribute.name$>"];
-	<$endif$><$endforeach do$>
-	<$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>if([self.<$Relationship.name$> count] > 0)
-	{
-		<$if (! Relationship.isTransient) or (Relationship.userInfo.destinationEntityIDKeyPath) $>
-		NSMutableArray *<$Relationship.name$>RepresentationsForDictionary = [NSMutableArray arrayWithCapacity:[self.<$Relationship.name$> count]];
-		for(<$Relationship.destinationEntity.managedObjectClassName$> *obj in self.<$Relationship.name$>)
-		{
-			<$if Relationship.userInfo.destinationEntityIDKeyPath $>[<$Relationship.name$>RepresentationsForDictionary addObject:[obj valueForKeyPath:@"<$Relationship.userInfo.destinationEntityIDKeyPath$>"]];
-			<$else$>[<$Relationship.name$>RepresentationsForDictionary addObject:[obj dictionaryRepresentation]];<$endif$>
-		}
-		[dict setObjectIfNotNil:<$Relationship.name$>RepresentationsForDictionary forKey:@"<$Relationship.name$>"];
-		<$endif$>
-	}
-	<$else$>
-	<$if Relationship.userInfo.destinationEntityIDKeyPath $>[dict setObjectIfNotNil:[self.<$Relationship.name$> valueForKeyPath:@"<$Relationship.userInfo.destinationEntityIDKeyPath$>"] forKey:@"<$Relationship.name$>"];
-	<$else$><$if ! Relationship.isTransient $>[dict setObjectIfNotNil:[self.<$Relationship.name$> dictionaryRepresentation] forKey:@"<$Relationship.name$>"];
-	<$endif$>
-	<$endif$>
-	<$endif$>
-	<$endforeach do$>
-	return dict;
+  @synchronized(self) {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[super dictionaryRepresentation]];
+    <$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>[dict setObjectIfNotNil:self.<$Attribute.name$> forKey:@"<$Attribute.name$>"];
+    <$endif$><$endforeach do$>
+    <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>if([self.<$Relationship.name$> count] > 0)
+    {
+      <$if (! Relationship.isTransient) or (Relationship.userInfo.destinationEntityIDKeyPath) $>
+      NSMutableArray *<$Relationship.name$>RepresentationsForDictionary = [NSMutableArray arrayWithCapacity:[self.<$Relationship.name$> count]];
+      for(<$Relationship.destinationEntity.managedObjectClassName$> *obj in self.<$Relationship.name$>)
+      {
+        <$if Relationship.userInfo.destinationEntityIDKeyPath $>[<$Relationship.name$>RepresentationsForDictionary addObject:[obj valueForKeyPath:@"<$Relationship.userInfo.destinationEntityIDKeyPath$>"]];
+        <$else$>[<$Relationship.name$>RepresentationsForDictionary addObject:[obj dictionaryRepresentation]];<$endif$>
+      }
+      [dict setObjectIfNotNil:<$Relationship.name$>RepresentationsForDictionary forKey:@"<$Relationship.name$>"];
+      <$endif$>
+    }
+    <$else$>
+    <$if Relationship.userInfo.destinationEntityIDKeyPath $>[dict setObjectIfNotNil:[self.<$Relationship.name$> valueForKeyPath:@"<$Relationship.userInfo.destinationEntityIDKeyPath$>"] forKey:@"<$Relationship.name$>"];
+    <$else$><$if ! Relationship.isTransient $>[dict setObjectIfNotNil:[self.<$Relationship.name$> dictionaryRepresentation] forKey:@"<$Relationship.name$>"];
+    <$endif$>
+    <$endif$>
+    <$endif$>
+    <$endforeach do$>
+    return dict;
+  }
 }
 
 - (void)awakeFromDictionaryRepresentationInit
