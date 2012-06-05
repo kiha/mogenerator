@@ -237,13 +237,13 @@ NSString	*gCustomBaseClassForced;
 - (NSString*)scalarAttributeType {
 	switch ([self attributeType]) {
 		case NSInteger16AttributeType:
-			return @"int16_t";
+			return @"short";
 			break;
 		case NSInteger32AttributeType:
-			return @"int32_t";
+			return @"int";
 			break;
 		case NSInteger64AttributeType:
-			return @"int64_t";
+			return @"long long";
 			break;
 		case NSDoubleAttributeType:
 			return @"double";
