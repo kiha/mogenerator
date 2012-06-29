@@ -63,8 +63,8 @@
   if ([dictionary isKindOfClass:[NSDictionary class]])
   {
     @synchronized(self) {
-      [super updateWithDictionaryRepresentation:dictionary];
-      <$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>{ id <$Attribute.name$>_; if ((<$Attribute.name$>_ = [dictionary objectForKey:@"<$Attribute.name$>"])) self.<$Attribute.name$> = <$Attribute.name$>_; }
+      [super updateWithDictionaryRepresentation:dictionary]; // initialCapitalString
+      <$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>{ id <$Attribute.name$>_; if ((<$Attribute.name$>_ = [dictionary objectForKey:@"<$Attribute.name$>"])) {self.<$Attribute.name$> = <$Attribute.name$>_;} else if ((<$Attribute.name$>_ = [dictionary objectForKey:@"<$Attribute.name.initialCapitalString$>"])) {self.<$Attribute.name$> = <$Attribute.name$>_;} }
       <$endif$><$endforeach do$>
       <$foreach Relationship noninheritedRelationships do$><$if ! Relationship.userInfo.destinationEntityIDKeyPath $><$if ! Relationship.isTransient$>
       NSMutableDictionary *<$Relationship.name$>Dict = [dictionary objectForKey:@"<$Relationship.name$>"];<$if Relationship.isToMany$>
