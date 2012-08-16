@@ -26,16 +26,16 @@
 {
 //	<$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$><$Attribute.objectAttributeType$> <$Attribute.name$>;<$endif$>
 //	<$endforeach do$>
-	<$foreach Relationship noninheritedRelationships do$>
-	<$if Relationship.isToMany$>NSArray *<$Relationship.name$>;<$else$><$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;<$endif$>
-	<$endforeach do$>
+//	<$foreach Relationship noninheritedRelationships do$>
+//	<$if Relationship.isToMany$>NSArray *<$Relationship.name$>;<$else$><$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;<$endif$>
+//	<$endforeach do$>
 }
 
 <$foreach Attribute noninheritedAttributes do$><$if Attribute.hasDefinedAttributeType$>@property (nonatomic, strong, readwrite) <$Attribute.objectAttributeType$> <$Attribute.name$>;
 <$if Attribute.hasScalarAttributeType$>@property (nonatomic, assign, readwrite) <$Attribute.scalarAttributeType$> <$Attribute.name$>Value;
 <$endif$><$endif$><$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$><$if Relationship.isToMany$>@property (nonatomic, strong, readonly) NSArray *<$Relationship.name$>;
-<$else$><$if Relationship.isTransient $>@property (nonatomic, assign, readwrite) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
+<$else$><$if Relationship.isTransient $>@property (nonatomic, weak, readwrite) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;
 <$else$>@property (nonatomic, strong, readwrite) <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>;<$endif$>
 <$endif$><$endforeach do$>
 <$foreach Relationship noninheritedRelationships do$>
