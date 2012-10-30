@@ -74,13 +74,18 @@
         for(id objectRepresentationForDict in <$Relationship.name$>Dict)
         {
           <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:objectRepresentationForDict];
-          [self add<$Relationship.name.initialCapitalString$>Object:<$Relationship.name$>Obj];
+          if (<$Relationship.name$>Obj) {
+            [self add<$Relationship.name.initialCapitalString$>Object:<$Relationship.name$>Obj];
+          }
         }
       }<$else$>
       if(<$Relationship.name$>Dict != nil)
       {
         <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:<$Relationship.name$>Dict];
-        self.<$Relationship.name$> = <$Relationship.name$>Obj;
+		if(<$Relationship.name$>Obj)
+		{
+          self.<$Relationship.name$> = <$Relationship.name$>Obj;
+		}
       }<$endif$><$endif$><$endif$><$endforeach do$>
     }
   }
