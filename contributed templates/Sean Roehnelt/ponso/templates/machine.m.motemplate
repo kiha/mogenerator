@@ -81,17 +81,21 @@
       }<$else$>
       if(<$Relationship.name$>Dict != nil)
       {
-        <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:<$Relationship.name$>Dict];
-		if(<$Relationship.name$>Obj)
-		{
-          self.<$Relationship.name$> = <$Relationship.name$>Obj;
-		}
+        if (self.<$Relationship.name$>) {
+          [self.<$Relationship.name$> updateWithDictionaryRepresentation:<$Relationship.name$>Dict];
+        } else {
+          <$Relationship.destinationEntity.managedObjectClassName$> *<$Relationship.name$>Obj = [[<$Relationship.destinationEntity.managedObjectClassName$> alloc] initWithDictionaryRepresentation:<$Relationship.name$>Dict];
+      		if(<$Relationship.name$>Obj)
+      		{
+            self.<$Relationship.name$> = <$Relationship.name$>Obj;
+      		}
+        }
       }<$endif$><$endif$><$endif$><$endforeach do$>
     }
   }
   else
   {
-	NSLog(@"<$managedObjectClassName$>: updateWithDictionaryRepresentation: called with object: %@", dictionary);
+	  NSLog(@"<$managedObjectClassName$>: updateWithDictionaryRepresentation: called with object: %@", dictionary);
   }
 }
 
